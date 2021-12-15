@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:id="@+id/relAdap"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_width="200dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_height="wrap_content"
+        android:text="Task name: "
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/taskname"
+        android:textColor="@color/teal_200"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+
+
+    <TextView
+        android:layout_width="200dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/taskname"
+        android:id="@+id/taskstatus"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:textAlignment="viewEnd"
+        android:text="Status"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/starttime"
+        android:textAlignment="viewEnd"
+        android:layout_alignParentEnd="true"
+        android:text="Start time"
+        android:layout_below="@id/taskstatus"
+        android:textSize="18dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"/>
+
+
+</RelativeLayout>

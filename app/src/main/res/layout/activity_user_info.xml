@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="20dp"
+    android:paddingTop="20dp"
+    android:background="@color/green"
+    android:orientation="vertical"
+    android:id="@+id/parent2Relative"
+    tools:context=".TaskInfo">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Employee name :"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/solidempname"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/flexibleempname"
+        android:text="ABC"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@id/solidempname"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Employee ID :"
+        android:layout_below="@id/solidempname"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/solidempid"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/flexibleempid"
+        android:text="Swimming"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:layout_below="@id/flexibleempname"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@id/solidempid"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Register number :"
+        android:layout_below="@id/solidempid"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/solidregno"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/flexibleregno"
+        android:text="Sakthi"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:layout_below="@id/flexibleempid"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@id/solidregno"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Email :"
+        android:layout_below="@id/solidregno"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/solidemail"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/flexibleemail"
+        android:text="Swimming"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:layout_below="@id/flexibleregno"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@id/solidemail"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Role :"
+        android:layout_below="@id/solidemail"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/solidrole"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/flexiblerole"
+        android:text="Start time"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:layout_below="@id/flexibleemail"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@id/solidrole"/>
+
+</RelativeLayout>
