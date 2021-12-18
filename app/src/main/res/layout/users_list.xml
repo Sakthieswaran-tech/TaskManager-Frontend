@@ -11,6 +11,7 @@
         android:text="Employee name"
         android:id="@+id/EmpName"
         android:textSize="20dp"
+        android:textColor="@color/teal_700"
         android:textStyle="bold"
         android:layout_marginTop="3dp"
         android:layout_marginLeft="5dp"/>
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:text="Employee id"
         android:id="@+id/id"
+        android:textColor="@color/purple_700"
         android:layout_below="@id/EmpName"
         android:textSize="20dp"
         android:layout_marginLeft="5dp"

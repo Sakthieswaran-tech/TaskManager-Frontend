@@ -9,13 +9,13 @@ public class CreateTask {
     private String taskID;
     private int[] depending_task_ids;
     private String assigned_to;
-    private String estimated_start;
-    private String estimated_complete;
+    private ArrayList<String> estimated_start;
+    private ArrayList<String> estimated_complete;
     private String estimated_start_time;
     private String estimated_complete_time;
 
-    public CreateTask(String task_name, String taskID, int[] depending_task_ids, String assigned_to,String estimated_start,
-                      String estimated_complete,String estimated_start_time,String estimated_complete_time) {
+    public CreateTask(String task_name, String taskID, int[] depending_task_ids, String assigned_to,ArrayList<String> estimated_start,
+                      ArrayList<String> estimated_complete,String estimated_start_time,String estimated_complete_time) {
         this.task_name = task_name;
         this.taskID = taskID;
         this.depending_task_ids = depending_task_ids;
@@ -42,11 +42,11 @@ public class CreateTask {
         this.estimated_complete_time = estimated_complete_time;
     }
 
-    public String getEstimated_start() {
+    public ArrayList<String> getEstimated_start() {
         return estimated_start;
     }
 
-    public void setEstimated_start(String estimated_start) {
+    public void setEstimated_start(ArrayList<String> estimated_start) {
         this.estimated_start = estimated_start;
     }
 
@@ -82,11 +82,11 @@ public class CreateTask {
         this.depending_task_ids = depending_task;
     }
 
-    public String getEstimated_complete() {
+    public ArrayList<String> getEstimated_complete() {
         return estimated_complete;
     }
 
-    public void setEstimated_complete(String estimated_complete) {
+    public void setEstimated_complete(ArrayList<String> estimated_complete) {
         this.estimated_complete = estimated_complete;
     }
 }

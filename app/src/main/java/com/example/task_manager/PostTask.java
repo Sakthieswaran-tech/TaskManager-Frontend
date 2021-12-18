@@ -1,5 +1,6 @@
 package com.example.task_manager;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -7,9 +8,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,6 +28,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.lang.reflect.Array;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,6 +55,7 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
     Calendar startActiveDate,completeActiveDate,activeDate;
     static final int DATE_DIALOG_ID = 0;
     String start,complete;
+    private ArrayList<String> startDates,completeDates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +112,7 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         pickstart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDateDialog(startDateView,startActiveDate);
+                startActivityForResult(new Intent(PostTask.this,ChooseDates.class),1);
             }
         });
 
@@ -115,7 +120,8 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         pickComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDateDialog(completeDateView,completeActiveDate);
+                startActivityForResult(new Intent(PostTask.this,ChooseDates.class),2);
+//                showDateDialog(completeDateView,completeActiveDate);
             }
         });
 
@@ -125,7 +131,7 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
             public void onClick(View v) {
                 if(!mainActivity.checkConnection(connectivityManager))
                     mainActivity.createDialog(PostTask.this);
-                else createTask();
+                else createTask(v);
             }
         });
     }
@@ -135,14 +141,40 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         showDialog(DATE_DIALOG_ID);
     }
 
-    private void createTask() {
+    private void createTask(View v) {
+        InputMethodManager inputMethodManager=(InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
         if (name.getText().toString().trim().isEmpty()){
             Toast.makeText(PostTask.this, "Please enter task name", Toast.LENGTH_LONG).show();
         }
         else {
-            if (currentDate!=null) {
+            if (startDates==null || startDates.size()==0){
+                Snackbar snackbar = Snackbar.make(linearLayout, "Please select a start date", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                return;
+            }
+            if (completeDates==null || completeDates.size()==0){
+                Snackbar snackbar = Snackbar.make(linearLayout, "Please select a complete date", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                return;
+            }
+            if (startDates.size()!=completeDates.size()){
+                Snackbar snackbar = Snackbar.make(linearLayout, "Please provide same count of dates", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                return;
+            }
+            if (startTimeView.getText().toString().isEmpty()){
+                Snackbar snackbar = Snackbar.make(linearLayout, "Please select a start time", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                return;
+            }
+            if (completeTimeView.getText().toString().isEmpty()){
+                Snackbar snackbar = Snackbar.make(linearLayout, "Please select a complete time", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+            else{
                 CreateTask createTask = new CreateTask(name.getText().toString().trim(), null, checkIsDataGiven(),
-                        rolespinner.getSelectedItem().toString(), currentDate,currentComplete,start,complete);
+                        rolespinner.getSelectedItem().toString(), startDates,completeDates,start,complete);
                 Call<CreateTask> createTaskCall = APIClient.getTaskManage(PostTask.this).createTask(createTask);
                 createTaskCall.enqueue(new Callback<CreateTask>() {
                     @Override
@@ -161,9 +193,6 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
                         Toast.makeText(PostTask.this, t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-            }
-            else {
-                Toast.makeText(PostTask.this,"Select preferred start time",Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -318,6 +347,18 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         }else{
             complete=hourOfDay+":"+minute+":"+00;
             completeTimeView.setText(formats);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==2 && requestCode==1){
+            startDates=data.getExtras().getStringArrayList("dates");
+            startDateView.setText(String.valueOf(startDates.size()));
+        }else if(resultCode==2 && requestCode==2){
+            completeDates=data.getExtras().getStringArrayList("dates");
+            completeDateView.setText(String.valueOf(completeDates.size()));
         }
     }
 }
