@@ -28,7 +28,7 @@ import java.util.Calendar;
 //        return new DatePickerDialog(getActivity(),(DatePickerDialog.OnDateSetListener) getActivity(),year,month,day);
 //    }
 //}
-public class PickStartDate extends DialogFragment {
+public class PickTime extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

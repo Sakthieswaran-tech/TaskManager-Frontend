@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/filterrelative"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FilterTasks">
+
+    <Spinner
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/filterByRole"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/filterByRole"
+        android:layout_marginLeft="5dp"
+        android:text="Select to filter by dates only"
+        android:id="@+id/checkbox"/>
+
+<!--    <TextView-->
+<!--        android:layout_width="70dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_below="@id/filterByRole"-->
+<!--        android:text="From"-->
+<!--        android:textSize="20dp"-->
+<!--        android:id="@+id/from"-->
+<!--        android:textAlignment="center"-->
+<!--        android:layout_marginTop="10dp"/>-->
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text="Start date"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:id="@+id/fromdate"
+        android:layout_below="@id/filterByRole"
+        android:layout_marginTop="10dp"/>
+
+<!--    <TextView-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:id="@+id/to"-->
+<!--        android:text="To"-->
+<!--        android:textSize="20dp"-->
+<!--        android:layout_below="@id/filterByRole"-->
+<!--        android:layout_toRightOf="@id/from"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:textAlignment="viewEnd"-->
+<!--        android:layout_marginRight="10dp"/>-->
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/filterByRole"
+        android:text="To date"
+        android:textSize="20dp"
+        android:id="@+id/todate"
+        android:layout_toRightOf="@id/fromdate"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="30dp"
+        android:background="@color/teal_700"
+        android:text="GO"
+        android:id="@+id/getfilteredtask"
+        android:layout_below="@id/filterByRole"
+        android:layout_toRightOf="@id/todate"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/filteredtask"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/fromdate"/>
+
+</RelativeLayout>

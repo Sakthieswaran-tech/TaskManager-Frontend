@@ -15,9 +15,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -25,14 +28,13 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
-import java.lang.reflect.Array;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 import okhttp3.internal.concurrent.Task;
 import retrofit2.Call;
@@ -41,27 +43,30 @@ import retrofit2.Response;
 
 public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     TextInputEditText name;
-    Spinner rolespinner;
+    TextInputLayout namelayout;
+    Spinner rolespinner,taskspinner;
+    CheckBox checkBox,existtask;
     Button  createTaskButton, createDepTaskButton,pickstart,pickComplete,pickstartTime,pickCompleteTime;
     LinearLayout linearLayout, linearLayout1;
     TaskDetail taskDetail;
     TextView startDateView,completeDateView,startTimeView,completeTimeView;
     ArrayList<Tasks> tasks=new ArrayList<>();
     MainActivity mainActivity=new MainActivity();
-    String [] rolenames,taskname;
+    String [] rolenames,taskname,mastertasks;
     int [] taskId;
     int a = 0;
     String currentDate,currentComplete;
-    Calendar startActiveDate,completeActiveDate,activeDate;
-    static final int DATE_DIALOG_ID = 0;
+    Calendar startActiveDate,completeActiveDate;
     String start,complete;
     private ArrayList<String> startDates,completeDates;
+    List<Tasks> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_task);
 
+        namelayout=findViewById(R.id.tasknamelayout);
         pickstartTime=findViewById(R.id.selectstartTime);
         pickCompleteTime=findViewById(R.id.selectcompleteTime);
         startTimeView=findViewById(R.id.startTimePost);
@@ -69,6 +74,9 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         pickComplete=findViewById(R.id.selectcompleteDate);
         rolespinner=findViewById(R.id.spinnerrole);
         name = findViewById(R.id.posttaskname);
+        taskspinner=findViewById(R.id.taskselector);
+        existtask=findViewById(R.id.existtask);
+        checkBox=findViewById(R.id.rememebertask);
         createTaskButton = findViewById(R.id.createtask);
         linearLayout = findViewById(R.id.linear2);
         createDepTaskButton = findViewById(R.id.adddep);
@@ -76,16 +84,53 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         startDateView=findViewById(R.id.startDatePost);
         linearLayout1 = findViewById(R.id.layout_list);
         completeDateView=findViewById(R.id.completeDatePost);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        setTitle("Create Task");
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         populateDependingTask();
 
         populateRoles();
 
+        Call<TaskDetail> call=APIClient.getTaskManage(PostTask.this).getmasterTasks();
+        call.enqueue(new Callback<TaskDetail>() {
+            @Override
+            public void onResponse(Call<TaskDetail> call, Response<TaskDetail> response) {
+                if(response.code()==200){
+                    list=response.body().getTasks();
+                    mastertasks=new String[list.size()];
+                    for (int i=0;i<list.size();i++)
+                        mastertasks[i]=list.get(i).getTaskName();
+                    ArrayAdapter arrayAdapter2 = new ArrayAdapter(PostTask.this, android.R.layout.simple_spinner_item, mastertasks);
+                    taskspinner.setAdapter(arrayAdapter2);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TaskDetail> call, Throwable t) {
+                Toast.makeText(PostTask.this,t.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        existtask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    name.setVisibility(View.INVISIBLE);
+                    namelayout.setVisibility(View.INVISIBLE);
+                    taskspinner.setVisibility(View.VISIBLE);
+                }else{
+                    taskspinner.setVisibility(View.INVISIBLE);
+                    name.setVisibility(View.VISIBLE);
+                    namelayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         pickCompleteTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment dialogFragment=new PickStartDate();
+                DialogFragment dialogFragment=new PickTime();
                 dialogFragment.show(getSupportFragmentManager(),"complete picker");
             }
         });
@@ -93,7 +138,7 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         pickstartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment dialogFragment=new PickStartDate();
+                DialogFragment dialogFragment=new PickTime();
                 dialogFragment.show(getSupportFragmentManager(),"time picker");
             }
         });
@@ -121,7 +166,6 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(PostTask.this,ChooseDates.class),2);
-//                showDateDialog(completeDateView,completeActiveDate);
             }
         });
 
@@ -136,15 +180,10 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         });
     }
 
-    private void showDateDialog(TextView startDateView, Calendar date) {
-        activeDate = date;
-        showDialog(DATE_DIALOG_ID);
-    }
-
     private void createTask(View v) {
         InputMethodManager inputMethodManager=(InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
-        if (name.getText().toString().trim().isEmpty()){
+        if (!existtask.isChecked() && name.getText().toString().trim().isEmpty()){
             Toast.makeText(PostTask.this, "Please enter task name", Toast.LENGTH_LONG).show();
         }
         else {
@@ -173,7 +212,8 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
                 snackbar.show();
             }
             else{
-                CreateTask createTask = new CreateTask(name.getText().toString().trim(), null, checkIsDataGiven(),
+                String taskname=existtask.isChecked()? String.valueOf(taskspinner.getSelectedItem()) :name.getText().toString().trim();
+                CreateTask createTask = new CreateTask(taskname, null, checkIsDataGiven(),
                         rolespinner.getSelectedItem().toString(), startDates,completeDates,start,complete);
                 Call<CreateTask> createTaskCall = APIClient.getTaskManage(PostTask.this).createTask(createTask);
                 createTaskCall.enqueue(new Callback<CreateTask>() {
@@ -193,57 +233,24 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
                         Toast.makeText(PostTask.this, t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+                if(checkBox.isChecked() && !existtask.isChecked()){
+                    CreateTask createTask1=new CreateTask(taskname);
+                    Call<CreateTask> createTaskCall1=APIClient.getTaskManage(PostTask.this).addmastertask(createTask1);
+                    createTaskCall1.enqueue(new Callback<CreateTask>() {
+                        @Override
+                        public void onResponse(Call<CreateTask> call, Response<CreateTask> response) {
+                            if (response.code()!=200){
+                                Toast.makeText(PostTask.this,String.valueOf(response.code()),Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CreateTask> call, Throwable t) {
+                            Toast.makeText(PostTask.this,t.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
-        }
-    }
-
-    private DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener(){
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            activeDate.set(Calendar.YEAR, year);
-            activeDate.set(Calendar.MONTH, month);
-            activeDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateDisplay(activeDate);
-            unregisterDateDisplay();
-        }
-    };
-
-    private void updateDisplay(Calendar activeDate) {
-        String start=startDateView.getText().toString();
-        String complete=completeDateView.getText().toString();
-        if (start.trim().length()<1){
-            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-            currentDate = simpleDateFormat.format(activeDate.getTime());
-            String showDate = DateFormat.getDateInstance().format(activeDate.getTime());
-            startDateView.setText(showDate);
-        }else {
-            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-            currentComplete = simpleDateFormat.format(activeDate.getTime());
-            String showDate = DateFormat.getDateInstance().format(activeDate.getTime());
-            completeDateView.setText(showDate);
-        }
-    }
-
-    private void unregisterDateDisplay() {
-        activeDate=null;
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case DATE_DIALOG_ID:
-                return new DatePickerDialog(this, listener, activeDate.get(Calendar.YEAR), activeDate.get(Calendar.MONTH), activeDate.get(Calendar.DAY_OF_MONTH));
-        }
-        return null;
-    }
-
-    @Override
-    protected void onPrepareDialog(int id, Dialog dialog) {
-        super.onPrepareDialog(id, dialog);
-        switch (id) {
-            case DATE_DIALOG_ID:
-                ((DatePickerDialog) dialog).updateDate(activeDate.get(Calendar.YEAR), activeDate.get(Calendar.MONTH), activeDate.get(Calendar.DAY_OF_MONTH));
-                break;
         }
     }
 
@@ -283,7 +290,9 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
                 } else {
                     taskDetail = response.body();
                     for (int i = 0; i < taskDetail.getTasks().size(); i++) {
-                        tasks.add(taskDetail.getTasks().get(i));
+                        if (taskDetail.getTasks().get(i).getIsCompleted()==0) {
+                            tasks.add(taskDetail.getTasks().get(i));
+                        }
                     }
                 }
             }

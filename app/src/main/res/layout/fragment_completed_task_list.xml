@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CompletedTaskList">
+    tools:context=".AllTasksEmployee">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/noTask2"
+        android:id="@+id/noTask3"
         android:text="No tasks available"
         android:textColor="@color/teal_200"
         android:textStyle="bold"
@@ -23,5 +23,16 @@
         android:id="@+id/taskcompletefrag"
         android:scrollbars="vertical"
         tools:listitem="@layout/task_list"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter tasks"
+        android:textAlignment="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="35dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/filterfloatemployee"/>
 
 </RelativeLayout>

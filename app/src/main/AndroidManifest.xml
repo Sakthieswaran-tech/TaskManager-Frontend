@@ -13,16 +13,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskManager">
-        <activity android:name=".ChooseDates"></activity>
+        <activity android:name=".FilterTasks"></activity>
+        <activity android:name=".ChooseDates" />
         <activity android:name=".Chart" />
         <activity android:name=".EmployeePanel" />
         <activity android:name=".ManagerPanel" />
-        <activity android:name=".PostRole" />
+        <activity android:name=".PostRole"
+            android:parentActivityName=".AdminPanelOne"/>
         <activity android:name=".UserInfo" />
         <activity android:name=".TaskInfo" />
-        <activity android:name=".PostTask" />
-        <activity android:name=".PostUser" />
-        <activity android:name=".AdminPanelOne" />
+        <activity android:name=".PostTask"
+            android:parentActivityName=".AdminPanelOne"/>
+        <activity android:name=".PostUser"
+            android:parentActivityName=".AdminPanelOne"/>
+        <activity android:name=".AdminPanelOne"/>
         <activity android:name=".EmployeePanel1" />
         <activity
             android:name=".MainActivity"

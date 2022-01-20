@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/solidcreatedby"
             android:layout_marginTop="20dp"
-            android:text="Estimated Start:"
+            android:text="Est. Start:"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -217,7 +217,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/solideststart"
             android:layout_marginTop="20dp"
-            android:text="Estimated Complete:"
+            android:text="Est. Complete:"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -240,7 +240,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/solidtaskstatus"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
             app:errorEnabled="true">
 

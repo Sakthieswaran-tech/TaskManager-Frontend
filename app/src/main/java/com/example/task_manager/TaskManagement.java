@@ -20,6 +20,18 @@ public interface TaskManagement {
             @Query("role") String role,
             @Query("completed") int completed);
 
+    @GET("tasks/filter_for_admin_by_role")
+    Call<TaskDetail> getFilterTaskByRole(
+            @Query("role") String role
+    );
+
+    @GET("tasks/filter_for_admin")
+    Call<TaskDetail> getFilterTasks(
+            @Query("role") String role,
+            @Query("from_date") String fromdate,
+            @Query("to_date") String todate
+    );
+
     @POST("tasks")
     Call<CreateTask> createTask(@Body CreateTask createTask);
 
@@ -39,4 +51,13 @@ public interface TaskManagement {
 
     @GET("tasks/group")
     Call<List<GraphData>> getTaskByGroup();
+
+    @GET("tasks/filter_by_dates_only")
+    Call<TaskDetail> getTasksByDateOnly(@Query("from_date") String start, @Query("to_date") String end);
+
+    @POST("tasks/master_task")
+    Call<CreateTask> addmastertask(@Body CreateTask createTask);
+
+    @GET("tasks/master_task")
+    Call<TaskDetail> getmasterTasks();
 }

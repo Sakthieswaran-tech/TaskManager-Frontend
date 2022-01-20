@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class TaskList extends Fragment {
     TaskDetail taskDetail = new TaskDetail();
     TaskListAdapter taskListAdapter;
     String role = MainActivity.ROLE;
+    ExtendedFloatingActionButton filterfloat;
 
     @Nullable
     @Override
@@ -39,14 +41,22 @@ public class TaskList extends Fragment {
         recyclerView = view.findViewById(R.id.taskAdmin);
         floatingActionButton = view.findViewById(R.id.add);
         refresh = view.findViewById(R.id.refreshtask);
+        filterfloat=view.findViewById(R.id.filterfloat);
 
-        if (role.equals("admin") || role.equals("Manager")) {
+        if (MainActivity.ROLE.equals("admin") || MainActivity.ROLE.equals("Manager")) {
             fetchTasks();
         }else{
             fetchCompleteTasks();
             floatingActionButton.setVisibility(View.GONE);
             refresh.setVisibility(View.GONE);
         }
+
+        filterfloat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),FilterTasks.class));
+            }
+        });
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

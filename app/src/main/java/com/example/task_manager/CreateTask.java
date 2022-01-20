@@ -26,6 +26,10 @@ public class CreateTask {
         this.estimated_complete_time=estimated_complete_time;
     }
 
+    public CreateTask(String task_name) {
+        this.task_name = task_name;
+    }
+
     public String getEstimated_start_time() {
         return estimated_start_time;
     }

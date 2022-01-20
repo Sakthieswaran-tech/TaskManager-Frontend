@@ -13,25 +13,45 @@
         android:layout_height="match_parent"
         android:background="@color/green"
         android:orientation="vertical"
-        android:padding="20dp"
+        android:padding="10dp"
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbars="vertical"
         tools:context=".PostTask">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+        <CheckBox
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:errorEnabled="true">
+            android:id="@+id/existtask"
+            android:text="Existing tasks"
+            android:textColor="@color/white"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/posttaskname"
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tasknamelayout"
                 android:layout_width="match_parent"
-                android:singleLine="true"
                 android:layout_height="wrap_content"
-                android:hint="Task name" />
+                android:layout_marginTop="10dp"
+                app:errorEnabled="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/posttaskname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Task name"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/taskselector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,15 +61,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Assign to"
-                android:textSize="20sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/spinnerrole"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="28dp"
                 android:backgroundTint="@color/white" />
         </RelativeLayout>
 
@@ -61,24 +81,24 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/selectstartDate"
-                android:layout_marginBottom="1dp"
                 android:layout_width="125dp"
                 android:layout_height="30dp"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginBottom="1dp"
                 android:background="@drawable/rounded_corners"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="Start date"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
+                android:text="Start date"
                 android:textColor="@color/green" />
 
             <TextView
+                android:id="@+id/startDatePost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/startDatePost"
-                android:textColor="@color/white"/>
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -90,84 +110,92 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/selectstartTime"
-                android:layout_marginBottom="1dp"
                 android:layout_width="125dp"
                 android:layout_height="30dp"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginBottom="1dp"
                 android:background="@drawable/rounded_corners"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="Start time"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
+                android:text="Start time"
                 android:textColor="@color/green" />
 
             <TextView
+                android:id="@+id/startTimePost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/startTimePost"
-                android:textColor="@color/white"/>
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="1dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/selectcompleteDate"
                 android:layout_width="125dp"
                 android:layout_height="30dp"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:background="@drawable/rounded_corners"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="C.date"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
-                android:textColor="@color/green"/>
+                android:text="C.date"
+                android:textColor="@color/green" />
 
             <TextView
+                android:id="@+id/completeDatePost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/completeDatePost"
-                android:textColor="@color/white"/>
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="1dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/selectcompleteTime"
                 android:layout_width="125dp"
                 android:layout_height="30dp"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:background="@drawable/rounded_corners"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="c.Time"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
-                android:textColor="@color/green"/>
+                android:text="c.Time"
+                android:textColor="@color/green" />
 
             <TextView
+                android:id="@+id/completeTimePost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/completeTimePost"
-                android:textColor="@color/white"/>
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/rememebertask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remember task"
+            android:textColor="@color/white" />
+
 
         <LinearLayout
             android:id="@+id/layout_list"
@@ -184,9 +212,9 @@
             android:background="@drawable/round_primary"
             android:drawableLeft="@drawable/ic_baseline_add_24"
             android:fontFamily="@font/poppins_semibold"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:gravity="center"
             android:padding="10dp"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:text="Add depending task"
             android:textColor="@color/green"
             android:textStyle="bold" />
@@ -196,10 +224,10 @@
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:layout_marginTop="30dp"
             android:background="@drawable/rounded_corners"
             android:fontFamily="@font/poppins_semibold"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:text="Create task"
             android:textColor="@color/green"
             android:textStyle="bold" />

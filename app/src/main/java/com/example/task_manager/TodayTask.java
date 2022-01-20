@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +27,7 @@ import retrofit2.Response;
 public class TodayTask extends Fragment {
     RecyclerView recyclerView;
     TaskListAdapter taskListAdapter;
+    TextView textView;
     TaskDetail taskDetail;
     View view;
     @Override
@@ -33,7 +35,7 @@ public class TodayTask extends Fragment {
                              Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_today_task,container,false);
         recyclerView=view.findViewById(R.id.taskToday);
-//        Toast.makeText(getContext(),"HGSDUYCSGUYDS",Toast.LENGTH_LONG).show();
+        textView=view.findViewById(R.id.noTask2);
 
         Date date= Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -42,12 +44,14 @@ public class TodayTask extends Fragment {
         call.enqueue(new Callback<TaskDetail>() {
             @Override
             public void onResponse(Call<TaskDetail> call, Response<TaskDetail> response) {
-                if (response.isSuccessful()){
-                    taskDetail=response.body();
+                if(response.code() == 404 || response.body().getTasks().size()<1) {
+                    textView.setVisibility(View.VISIBLE);
+                }else if (response.code()==200) {
+                    taskDetail = response.body();
                     putdata(taskDetail.getTasks());
                 }
                 else{
-                    Toast.makeText(getContext(),"HGSDUYCSGUYDS",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),String.valueOf(response.code()),Toast.LENGTH_LONG).show();
                 }
             }
 

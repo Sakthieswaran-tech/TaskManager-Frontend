@@ -78,7 +78,7 @@ public class TaskInfo extends AppCompatActivity {
                         estStart.setText("Null");
                     }else {
                         String formatestStart = DateFormat.getDateInstance().format(taskDetail.getTask().getEstimated_start());
-                        estStart.setText(formatestStart);
+                        estStart.setText(formatestStart+" "+taskDetail.getTask().getEstimated_start_time());
                     }
 
                     String commentss = taskDetail.getTask().getComments();
@@ -93,7 +93,7 @@ public class TaskInfo extends AppCompatActivity {
                         estComplete.setText("Null");
                     }else {
                         String formatEstComplete = DateFormat.getDateInstance().format(taskDetail.getTask().getEstimated_complete());
-                        estComplete.setText(formatEstComplete);
+                        estComplete.setText(formatEstComplete+" "+taskDetail.getTask().getEstimated_complete_time());
                     }
                     if (taskDetail.getTask().getStartTime() == null) {
                         starttime.setText("Task not started");

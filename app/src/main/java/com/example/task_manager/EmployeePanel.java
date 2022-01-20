@@ -26,7 +26,7 @@ public class EmployeePanel extends AppCompatActivity {
         fragments=new ArrayList<>();
 
         fragments.add(new TodayTask());
-        fragments.add(new TaskList());
+        fragments.add(new AllTasksEmployee());
         fragments.add(new InCompleteTaskList());
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentAdapt fragmentAdapt=new FragmentAdapt(fragmentManager,getApplicationContext(),fragments);
@@ -34,7 +34,7 @@ public class EmployeePanel extends AppCompatActivity {
 
         tabLayout2.setupWithViewPager(viewPager2);
         tabLayout2.getTabAt(0).setText("Today");
-        tabLayout2.getTabAt(1).setText("Complete");
+        tabLayout2.getTabAt(1).setText("Tasks");
         tabLayout2.getTabAt(2).setText("InComplete");
 
     }

@@ -43,6 +43,8 @@ public class PostUser extends AppCompatActivity {
         role = findViewById(R.id.spinnerrole2);
         create = findViewById(R.id.createuser);
         linearLayout = findViewById(R.id.linear1);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        setTitle("Create User");
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         populateRoles();
