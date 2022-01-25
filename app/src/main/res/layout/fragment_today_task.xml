@@ -24,4 +24,14 @@
         android:scrollbars="vertical"
         tools:listitem="@layout/task_list"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_add_24"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/floating"
+        android:layout_marginRight="20dp"/>
+
 </RelativeLayout>

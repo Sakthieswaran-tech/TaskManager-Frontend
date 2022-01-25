@@ -13,17 +13,27 @@ public class CreateTask {
     private ArrayList<String> estimated_complete;
     private String estimated_start_time;
     private String estimated_complete_time;
+    private int recur;
 
     public CreateTask(String task_name, String taskID, int[] depending_task_ids, String assigned_to,ArrayList<String> estimated_start,
-                      ArrayList<String> estimated_complete,String estimated_start_time,String estimated_complete_time) {
+                      ArrayList<String> estimated_complete,String estimated_start_time,String estimated_complete_time,int recur) {
         this.task_name = task_name;
         this.taskID = taskID;
         this.depending_task_ids = depending_task_ids;
         this.assigned_to=assigned_to;
+        this.recur=recur;
         this.estimated_start=estimated_start;
         this.estimated_complete=estimated_complete;
         this.estimated_start_time=estimated_start_time;
         this.estimated_complete_time=estimated_complete_time;
+    }
+
+    public int getRecur() {
+        return recur;
+    }
+
+    public void setRecur(int recur) {
+        this.recur = recur;
     }
 
     public CreateTask(String task_name) {

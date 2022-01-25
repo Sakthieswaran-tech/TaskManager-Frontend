@@ -18,12 +18,12 @@
         android:scrollbars="vertical"
         tools:context=".PostTask">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/existtask"
-            android:text="Existing tasks"
-            android:textColor="@color/white"/>
+<!--        <CheckBox-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/existtask"-->
+<!--            android:text="Existing tasks"-->
+<!--            android:textColor="@color/white"/>-->
 
 
         <RelativeLayout
@@ -61,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Assign to"
+                android:id="@+id/assign"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -189,12 +190,12 @@
 
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/rememebertask"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Remember task"
-            android:textColor="@color/white" />
+<!--        <CheckBox-->
+<!--            android:id="@+id/rememebertask"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Remember task"-->
+<!--            android:textColor="@color/white" />-->
 
 
         <LinearLayout

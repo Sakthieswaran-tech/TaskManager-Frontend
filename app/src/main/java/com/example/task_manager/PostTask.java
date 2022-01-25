@@ -49,11 +49,12 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
     Button  createTaskButton, createDepTaskButton,pickstart,pickComplete,pickstartTime,pickCompleteTime;
     LinearLayout linearLayout, linearLayout1;
     TaskDetail taskDetail;
-    TextView startDateView,completeDateView,startTimeView,completeTimeView;
+    TextView startDateView,completeDateView,startTimeView,completeTimeView,assign;
     ArrayList<Tasks> tasks=new ArrayList<>();
+    ArrayList<Tasks> recurtasks=new ArrayList<>();
     MainActivity mainActivity=new MainActivity();
-    String [] rolenames,taskname,mastertasks;
-    int [] taskId;
+    String [] rolenames,taskname,recurtasksname;
+    int [] taskId,recurtaskID;
     int a = 0;
     String currentDate,currentComplete;
     Calendar startActiveDate,completeActiveDate;
@@ -66,6 +67,7 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_task);
 
+        assign=findViewById(R.id.assign);
         namelayout=findViewById(R.id.tasknamelayout);
         pickstartTime=findViewById(R.id.selectstartTime);
         pickCompleteTime=findViewById(R.id.selectcompleteTime);
@@ -75,8 +77,8 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         rolespinner=findViewById(R.id.spinnerrole);
         name = findViewById(R.id.posttaskname);
         taskspinner=findViewById(R.id.taskselector);
-        existtask=findViewById(R.id.existtask);
-        checkBox=findViewById(R.id.rememebertask);
+//        existtask=findViewById(R.id.existtask);
+//        checkBox=findViewById(R.id.rememebertask);
         createTaskButton = findViewById(R.id.createtask);
         linearLayout = findViewById(R.id.linear2);
         createDepTaskButton = findViewById(R.id.adddep);
@@ -88,44 +90,40 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
         setTitle("Create Task");
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        populateDependingTask();
+        if (MainActivity.ROLE.equals("admin")) {
+            populateDependingTask();
+            populateRoles();
+        }else{
+            rolespinner.setVisibility(View.GONE);
+            createDepTaskButton.setVisibility(View.GONE);
+            assign.setVisibility(View.GONE);
+//            existtask.setVisibility(View.GONE);
+//            checkBox.setVisibility(View.GONE);
+        }
+        recurtaskID=new int[recurtasks.size()];
+        recurtasksname=new String[recurtasks.size()];
+        for (int i=0;i<recurtasks.size();i++){
+            recurtaskID[i]=recurtasks.get(i).getId();
+            recurtasksname[i]=recurtasks.get(i).getTaskName();
+        }
+//        ArrayAdapter arrayAdapter1 = new ArrayAdapter(PostTask.this, android.R.layout.simple_spinner_item, recurtasksname);
+//        taskspinner.setAdapter(arrayAdapter1);
 
-        populateRoles();
-
-        Call<TaskDetail> call=APIClient.getTaskManage(PostTask.this).getmasterTasks();
-        call.enqueue(new Callback<TaskDetail>() {
-            @Override
-            public void onResponse(Call<TaskDetail> call, Response<TaskDetail> response) {
-                if(response.code()==200){
-                    list=response.body().getTasks();
-                    mastertasks=new String[list.size()];
-                    for (int i=0;i<list.size();i++)
-                        mastertasks[i]=list.get(i).getTaskName();
-                    ArrayAdapter arrayAdapter2 = new ArrayAdapter(PostTask.this, android.R.layout.simple_spinner_item, mastertasks);
-                    taskspinner.setAdapter(arrayAdapter2);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<TaskDetail> call, Throwable t) {
-                Toast.makeText(PostTask.this,t.getMessage(),Toast.LENGTH_LONG).show();
-            }
-        });
-
-        existtask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    name.setVisibility(View.INVISIBLE);
-                    namelayout.setVisibility(View.INVISIBLE);
-                    taskspinner.setVisibility(View.VISIBLE);
-                }else{
-                    taskspinner.setVisibility(View.INVISIBLE);
-                    name.setVisibility(View.VISIBLE);
-                    namelayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+//        existtask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked){
+//                    name.setVisibility(View.INVISIBLE);
+//                    namelayout.setVisibility(View.INVISIBLE);
+//                    taskspinner.setVisibility(View.VISIBLE);
+//                    checkBox.setVisibility(View.GONE);
+//                }else{
+//                    taskspinner.setVisibility(View.INVISIBLE);
+//                    name.setVisibility(View.VISIBLE);
+//                    namelayout.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
 
         pickCompleteTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,9 +210,11 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
                 snackbar.show();
             }
             else{
+//                int recur=checkBox.isChecked()?1:0;
                 String taskname=existtask.isChecked()? String.valueOf(taskspinner.getSelectedItem()) :name.getText().toString().trim();
+                String role=MainActivity.ROLE.equals("admin")?rolespinner.getSelectedItem().toString():MainActivity.ROLE;
                 CreateTask createTask = new CreateTask(taskname, null, checkIsDataGiven(),
-                        rolespinner.getSelectedItem().toString(), startDates,completeDates,start,complete);
+                        role, startDates,completeDates,start,complete,0);
                 Call<CreateTask> createTaskCall = APIClient.getTaskManage(PostTask.this).createTask(createTask);
                 createTaskCall.enqueue(new Callback<CreateTask>() {
                     @Override
@@ -233,23 +233,23 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
                         Toast.makeText(PostTask.this, t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-                if(checkBox.isChecked() && !existtask.isChecked()){
-                    CreateTask createTask1=new CreateTask(taskname);
-                    Call<CreateTask> createTaskCall1=APIClient.getTaskManage(PostTask.this).addmastertask(createTask1);
-                    createTaskCall1.enqueue(new Callback<CreateTask>() {
-                        @Override
-                        public void onResponse(Call<CreateTask> call, Response<CreateTask> response) {
-                            if (response.code()!=200){
-                                Toast.makeText(PostTask.this,String.valueOf(response.code()),Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<CreateTask> call, Throwable t) {
-                            Toast.makeText(PostTask.this,t.getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
+//                if(checkBox.isChecked() && !existtask.isChecked()){
+//                    CreateTask createTask1=new CreateTask(taskname);
+//                    Call<CreateTask> createTaskCall1=APIClient.getTaskManage(PostTask.this).addmastertask(createTask1);
+//                    createTaskCall1.enqueue(new Callback<CreateTask>() {
+//                        @Override
+//                        public void onResponse(Call<CreateTask> call, Response<CreateTask> response) {
+//                            if (response.code()!=200){
+//                                Toast.makeText(PostTask.this,String.valueOf(response.code()),Toast.LENGTH_LONG).show();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<CreateTask> call, Throwable t) {
+//                            Toast.makeText(PostTask.this,t.getMessage(),Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//                }
             }
         }
     }
@@ -293,6 +293,9 @@ public class PostTask extends AppCompatActivity implements TimePickerDialog.OnTi
                         if (taskDetail.getTasks().get(i).getIsCompleted()==0) {
                             tasks.add(taskDetail.getTasks().get(i));
                         }
+//                        if(taskDetail.getTasks().get(i).getRecur()==1){
+//                            recurtasks.add(taskDetail.getTasks().get(i));
+//                        }
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.task_manager;
 
+import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,6 +32,7 @@ public class TodayTask extends Fragment {
     TaskListAdapter taskListAdapter;
     TextView textView;
     TaskDetail taskDetail;
+    FloatingActionButton floatingActionButton;
     View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +40,14 @@ public class TodayTask extends Fragment {
         view=inflater.inflate(R.layout.fragment_today_task,container,false);
         recyclerView=view.findViewById(R.id.taskToday);
         textView=view.findViewById(R.id.noTask2);
+        floatingActionButton=view.findViewById(R.id.floating);
 
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),PostTask.class));
+            }
+        });
         Date date= Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String format=simpleDateFormat.format(date);

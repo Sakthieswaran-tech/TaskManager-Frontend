@@ -37,11 +37,13 @@ public class Tasks {
 
     private List<Dependents> dependents;
 
-    private int isCompleted;
+    private int isCompleted,recur;
 
     public Tasks(int id,String taskName, String taskID, String depTask,
                  String createdBy,
-                 String estimated_start_time,String estimated_complete_time,Date createdAt, Date startTime, Date completedAt, int isCompleted,Date estimated_start,Date estimated_complete,String comments) {
+                 String estimated_start_time,
+                 String estimated_complete_time,Date createdAt, Date startTime,
+                 Date completedAt, int isCompleted,Date estimated_start,Date estimated_complete,String comments,int recur) {
         this.estimated_start=estimated_start;
         this.comments=comments;
         this.estimated_complete=estimated_complete;
@@ -56,6 +58,15 @@ public class Tasks {
         this.isCompleted = isCompleted;
         this.estimated_start_time=estimated_start_time;
         this.estimated_complete_time=estimated_complete_time;
+        this.recur=recur;
+    }
+
+    public int getRecur() {
+        return recur;
+    }
+
+    public void setRecur(int recur) {
+        this.recur = recur;
     }
 
     public String getEstimated_start_time() {
