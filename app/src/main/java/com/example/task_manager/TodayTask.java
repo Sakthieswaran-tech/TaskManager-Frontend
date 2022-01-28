@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -34,6 +35,7 @@ public class TodayTask extends Fragment {
     TaskDetail taskDetail;
     FloatingActionButton floatingActionButton;
     View view;
+    ExtendedFloatingActionButton extendedFloatingActionButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,11 +43,19 @@ public class TodayTask extends Fragment {
         recyclerView=view.findViewById(R.id.taskToday);
         textView=view.findViewById(R.id.noTask2);
         floatingActionButton=view.findViewById(R.id.floating);
+        extendedFloatingActionButton=view.findViewById(R.id.geturtask);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(),PostTask.class));
+            }
+        });
+
+        extendedFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),PersonalTasks.class));
             }
         });
         Date date= Calendar.getInstance().getTime();
@@ -68,7 +78,7 @@ public class TodayTask extends Fragment {
 
             @Override
             public void onFailure(Call<TaskDetail> call, Throwable t) {
-
+                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
 

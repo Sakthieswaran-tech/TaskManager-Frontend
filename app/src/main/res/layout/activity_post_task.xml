@@ -18,12 +18,12 @@
         android:scrollbars="vertical"
         tools:context=".PostTask">
 
-<!--        <CheckBox-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/existtask"-->
-<!--            android:text="Existing tasks"-->
-<!--            android:textColor="@color/white"/>-->
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkforuser"
+            android:text="User based"
+            android:textColor="@color/white"/>
 
 
         <RelativeLayout
@@ -46,11 +46,11 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/taskselector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible" />
+<!--            <Spinner-->
+<!--                android:id="@+id/taskselector"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:visibility="invisible" />-->
         </RelativeLayout>
 
         <RelativeLayout
@@ -68,6 +68,15 @@
             <Spinner
                 android:id="@+id/spinnerrole"
                 android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="28dp"
+                android:backgroundTint="@color/white" />
+
+            <Spinner
+                android:id="@+id/spinnername"
+                android:layout_width="200dp"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="28dp"

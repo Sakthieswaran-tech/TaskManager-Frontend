@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     SessionManager sessionManager;
     public static String ROLE;
     ProgressBar progressBar;
+    public static String USER_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
                                     if (response.code() == 200) {
                                         UserDetail userDetail = response.body();
+                                        USER_NAME=userDetail.getUser().get(0).getName();
                                         ROLE = userDetail.getUser().get(0).getRole();
                                         switch (ROLE) {
                                             case "admin":
