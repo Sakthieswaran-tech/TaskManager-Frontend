@@ -12,6 +12,7 @@ public class APIClient {
     public static final String BASE_URL="http://103.249.207.112:5000/";
 //    public static final String BASE_URL="http://192.168.43.199:5000/";
 
+
     public static Retrofit getRetrofit(Context context){
         if (retrofit==null){
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
