@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -37,6 +38,9 @@ public interface TaskManagement {
 
     @GET("tasks/{id}")
     Call<TaskDetail> getOneTask(@Path("id") int taskid);
+
+    @DELETE("tasks/{id}")
+    Call<TaskDetail> deleteTask(@Path("id") int taskid);
 
     @PATCH("tasks/{id}/start")
     Call<StartTask> startTask(@Path("id") int id ,@Body StartTask startTask);

@@ -44,4 +44,9 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     compile 'com.squareup:android-times-square:1.6.5@aar'
 //    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
+    def lifecycle_version = "2.3.1"
+
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
 }

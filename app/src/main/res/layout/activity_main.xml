@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Born Natural"
+        android:text="Graspear"
         android:textColor="@color/teal_700"
         android:textSize="42sp"
         android:textStyle="bold"
